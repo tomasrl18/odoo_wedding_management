@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================ -->
+    <!-- wedding.guest views                                          -->
+    <!-- ============================================================ -->
+
+    <record id="view_wedding_guest_form" model="ir.ui.view">
+        <field name="name">wedding.guest.form</field>
+        <field name="model">wedding.guest</field>
+        <field name="arch" type="xml">
+            <form string="Guest">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="wedding_id"/>
+                            <field name="name"/>
+                            <field name="partner_id"/>
+                            <field name="phone"/>
+                            <field name="email"/>
+                        </group>
+                        <group>
+                            <field name="invitation_state"/>
+                            <field name="attendance_state"/>
+                            <field name="allowed_companions"/>
+                            <field name="confirmed_companions"/>
+                            <field name="actual_attendees"/>
+                            <field name="menu_choice"/>
+                            <field name="table_id"/>
+                        </group>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1" colspan="2"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_wedding_guest_tree" model="ir.ui.view">
+        <field name="name">wedding.guest.tree</field>
+        <field name="model">wedding.guest</field>
+        <field name="arch" type="xml">
+            <tree string="Guests"
+                  decoration-success="attendance_state == 'confirmed'"
+                  decoration-muted="attendance_state == 'declined'">
+                <field name="wedding_id"/>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="allowed_companions"/>
+                <field name="confirmed_companions"/>
+                <field name="actual_attendees"/>
+                <field name="invitation_state"/>
+                <field name="attendance_state"/>
+                <field name="menu_choice"/>
+                <field name="table_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_wedding_guest_search" model="ir.ui.view">
+        <field name="name">wedding.guest.search</field>
+        <field name="model">wedding.guest</field>
+        <field name="arch" type="xml">
+            <search string="Guests">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="wedding_id"/>
+                <field name="table_id"/>
+                <filter string="Pending Response" name="filter_pending"
+                        domain="[('attendance_state', '=', 'pending')]"/>
+                <filter string="Confirmed" name="filter_confirmed"
+                        domain="[('attendance_state', '=', 'confirmed')]"/>
+                <filter string="Declined" name="filter_declined"
+                        domain="[('attendance_state', '=', 'declined')]"/>
+                <separator/>
+                <filter string="Invitation Sent" name="filter_invitation_sent"
+                        domain="[('invitation_state', '=', 'sent')]"/>
+                <filter string="Invitation Answered" name="filter_invitation_answered"
+                        domain="[('invitation_state', '=', 'answered')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Wedding" name="group_wedding"
+                            context="{'group_by': 'wedding_id'}"/>
+                    <filter string="Attendance" name="group_attendance"
+                            context="{'group_by': 'attendance_state'}"/>
+                    <filter string="Invitation Status" name="group_invitation"
+                            context="{'group_by': 'invitation_state'}"/>
+                    <filter string="Table" name="group_table"
+                            context="{'group_by': 'table_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_wedding_guest" model="ir.actions.act_window">
+        <field name="name">Guests</field>
+        <field name="res_model">wedding.guest</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_wedding_guest_search"/>
+        <field name="context">{'search_default_filter_pending': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Register a guest
+            </p>
+            <p>Track invitations, attendance and table assignment.</p>
+        </field>
+    </record>
+
+</odoo>

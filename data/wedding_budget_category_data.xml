@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="category_catering" model="wedding.budget.category">
+        <field name="sequence">10</field>
+        <field name="name">Catering</field>
+    </record>
+
+    <record id="category_wedding_attire" model="wedding.budget.category">
+        <field name="sequence">20</field>
+        <field name="name">Wedding Attire</field>
+    </record>
+
+    <record id="category_flowers" model="wedding.budget.category">
+        <field name="sequence">30</field>
+        <field name="name">Flowers</field>
+    </record>
+
+    <record id="category_music" model="wedding.budget.category">
+        <field name="sequence">40</field>
+        <field name="name">Music</field>
+    </record>
+
+    <record id="category_photography" model="wedding.budget.category">
+        <field name="sequence">50</field>
+        <field name="name">Photography</field>
+    </record>
+
+    <record id="category_decoration" model="wedding.budget.category">
+        <field name="sequence">60</field>
+        <field name="name">Decoration</field>
+    </record>
+
+    <record id="category_rental" model="wedding.budget.category">
+        <field name="sequence">70</field>
+        <field name="name">Rental</field>
+    </record>
+
+    <record id="category_other" model="wedding.budget.category">
+        <field name="sequence">80</field>
+        <field name="name">Other Expenses</field>
+    </record>
+
+</odoo>

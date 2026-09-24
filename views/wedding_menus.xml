@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_wedding_root"
+              name="Weddings"
+              web_icon="wedding_management,static/description/icon.png"
+              sequence="35"
+              groups="group_wedding_coordinator"/>
+
+    <menuitem id="menu_wedding_event"
+              name="All Weddings"
+              parent="menu_wedding_root"
+              action="action_wedding_event"
+              sequence="10"/>
+
+    <menuitem id="menu_wedding_guest"
+              name="Guests"
+              parent="menu_wedding_root"
+              action="action_wedding_guest"
+              sequence="20"/>
+
+    <menuitem id="menu_wedding_table"
+              name="Tables"
+              parent="menu_wedding_root"
+              action="action_wedding_table"
+              sequence="30"/>
+
+    <menuitem id="menu_wedding_vendor"
+              name="Vendors"
+              parent="menu_wedding_root"
+              action="action_wedding_vendor_booking"
+              sequence="40"/>
+
+    <menuitem id="menu_wedding_budget"
+              name="Budgets"
+              parent="menu_wedding_root"
+              action="action_wedding_budget_line"
+              sequence="50"/>
+
+    <menuitem id="menu_wedding_task"
+              name="Tasks"
+              parent="menu_wedding_root"
+              action="action_wedding_task"
+              sequence="60"/>
+
+    <menuitem id="menu_wedding_timeline"
+              name="Timeline"
+              parent="menu_wedding_root"
+              action="action_wedding_timeline_event"
+              sequence="70"/>
+
+    <menuitem id="menu_wedding_config"
+              name="Configuration"
+              parent="menu_wedding_root"
+              groups="group_wedding_manager"
+              sequence="90"/>
+
+    <menuitem id="menu_wedding_budget_category"
+              name="Budget Categories"
+              parent="menu_wedding_config"
+              action="action_wedding_budget_category"
+              sequence="10"/>
+
+    <menuitem id="menu_wedding_timeline_type"
+              name="Timeline Event Types"
+              parent="menu_wedding_config"
+              action="action_wedding_timeline_type"
+              sequence="20"/>
+
+</odoo>

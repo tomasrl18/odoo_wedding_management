@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================ -->
+    <!-- Demo: partners                                               -->
+    <!-- ============================================================ -->
+
+    <record id="demo_partner_bride" model="res.partner">
+        <field name="name">Elena Martín</field>
+        <field name="email">elena.martin@example.com</field>
+        <field name="phone">+34 600 000 001</field>
+    </record>
+
+    <record id="demo_partner_groom" model="res.partner">
+        <field name="name">Carlos Ruiz</field>
+        <field name="email">carlos.ruiz@example.com</field>
+        <field name="phone">+34 600 000 002</field>
+    </record>
+
+    <record id="demo_partner_catering" model="res.partner">
+        <field name="name">Catering Sabores</field>
+        <field name="email">info@sabores.example.com</field>
+        <field name="is_company">True</field>
+    </record>
+
+    <record id="demo_partner_photo" model="res.partner">
+        <field name="name">Fotografía Instante</field>
+        <field name="email">hola@instante.example.com</field>
+        <field name="is_company">True</field>
+    </record>
+
+    <record id="demo_partner_flowers" model="res.partner">
+        <field name="name">Flores del Valle</field>
+        <field name="email">ventas@floresvalle.example.com</field>
+        <field name="is_company">True</field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Demo: wedding                                                -->
+    <!-- ============================================================ -->
+
+    <record id="demo_wedding" model="wedding.event">
+        <field name="name">Boda de Elena y Carlos</field>
+        <field name="partner_1_id" ref="demo_partner_bride"/>
+        <field name="partner_2_id" ref="demo_partner_groom"/>
+        <field name="date" eval="DateTime.now() + timedelta(days=60)"/>
+        <field name="venue">Finca La Vega, Madrid</field>
+        <field name="target_budget">15000</field>
+        <field name="expected_guests">80</field>
+        <field name="state">planning</field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Demo: guests                                                 -->
+    <!-- ============================================================ -->
+
+    <record id="demo_guest_1" model="wedding.guest">
+        <field name="wedding_id" ref="demo_wedding"/>
+        <field name="name">María López</field>
+        <field name="phone">+34 600 000 011</field>
+        <field name="allowed_companions">1</field>
+        <field name="confirmed_companions">1</field>
+        <field name="invitation_state">answered</field>
+        <field name="attendance_state">confirmed</field>
+        <field name="menu_choice">Menu A</field>
+    </record>
+
+    <record id="demo_guest_2" model="wedding.guest">
+        <field name="wedding_id" ref="demo_wedding"/>
+        <field name="name">Javier Ortega</field>
+        <field name="phone">+34 600 000 012</field>
+        <field name="allowed_companions">0</field>
+        <field name="invitation_state">answered</field>
+        <field name="attendance_state">confirmed</field>
+        <field name="menu_choice">Menu B</field>
+    </record>
+
+    <record id="demo_guest_3" model="wedding.guest">
+        <field name="wedding_id" ref="demo_wedding"/>
+        <field name="name">Lucía Fernández</field>
+        <field name="phone">+34 600 000 013</field>
+        <field name="allowed_companions">1</field>
+        <field name="invitation_state">sent</field>
+        <field name="attendance_state">pending</field>
+    </record>
+
+    <record id="demo_guest_4" model="wedding.guest">
+        <field name="wedding_id" ref="demo_wedding"/>
+        <field name="name">Pedro Sánchez</field>
+        <field name="phone">+34 600 000 014</field>
+        <field name="allowed_companions">0</field>
+        <field name="invitation_state">answered</field>
+        <field name="attendance_state">declined</field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Demo: tables                                                 -->
+    <!-- ============================================================ -->
+
+    <record id="demo_table_1" model="wedding.table">
+        <field name="wedding_id" ref="demo_wedding"/>
+        <field name="name">Mesa 1</field>
+        <field name="capacity">8</field>
+    </record>
+
+    <record id="demo_table_2" model="wedding.table">
+        <field name="wedding_id" ref="demo_wedding"/>
+        <field name="name">Mesa 2</field>
+        <field name="capacity">6</field>
+    </record>
+
+    <function model="wedding.guest" name="write"
+              eval="[ [ref('demo_guest_1'), ref('demo_guest_2')], {'table_id': ref('demo_table_1')} ]"/>
+
+    <!-- ============================================================ -->
+    <!-- Demo: vendor bookings                                        -->
+    <!-- ============================================================ -->
+
+    <record id="demo_vendor_catering" model="wedding.vendor.booking">
+        <field name="wedding_id" ref="demo_wedding"/>
+        <field name="partner_id" ref="demo_partner_catering"/>
+        <field name="service_type">catering</field>
+        <field name="description">Banquete para 80 personas</field>
+        <field name="contract_date" eval="datetime.today() - timedelta(days=10)"/>
+        <field name="amount_agreed">6000</field>
+        <field name="advance_paid">2000</field>
+        <field name="payment_due_date" eval="datetime.today() + timedelta(days=45)"/>
+        <field name="state">contracted</field>
+    </record>
+
+    <record id="demo_vendor_photo" model="wedding.vendor.booking">
+        <field name="wedding_id" ref="demo_wedding"/>
+        <field name="partner_id" ref="demo_partner_photo"/>
+        <field name="service_type">photography</field>
+        <field name="description">Fotografía y vídeo del día</field>
+        <field name="contract_date" eval="datetime.today() - timedelta(days=5)"/>
+        <field name="amount_agreed">2500</field>
+        <field name="advance_paid">500</field>
+        <field name="payment_due_date" eval="datetime.today() + timedelta(days=60)"/>
+        <field name="state">pending_confirmation</field>
+    </record>
+
+    <record id="demo_vendor_flowers" model="wedding.vendor.booking">
+        <field name="wedding_id" ref="demo_wedding"/>
+        <field name="partner_id" ref="demo_partner_flowers"/>
+        <field name="service_type">flowers</field>
+        <field name="description">Ramo y decoración floral</field>
+        <field name="contract_date" eval="datetime.today() - timedelta(days=2)"/>
+        <field name="amount_agreed">800</field>
+        <field name="advance_paid">0</field>
+        <field name="payment_due_date" eval="datetime.today() + timedelta(days=55)"/>
+        <field name="state">proposal</field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Demo: budget lines                                           -->
+    <!-- ============================================================ -->
+
+    <record id="demo_budget_catering" model="wedding.budget.line">
+        <field name="wedding_id" ref="demo_wedding"/>
+        <field name="category_id" ref="category_catering"/>
+        <field name="description">Banquete y barra libre</field>
+        <field name="vendor_id" ref="demo_partner_catering"/>
+        <field name="estimated_amount">6000</field>
+        <field name="actual_amount">2000</field>
+        <field name="payment_state">partial</field>
+    </record>
+
+    <record id="demo_budget_photo" model="wedding.budget.line">
+        <field name="wedding_id" ref="demo_wedding"/>
+        <field name="category_id" ref="category_photography"/>
+        <field name="description">Fotografía y vídeo</field>
+        <field name="vendor_id" ref="demo_partner_photo"/>
+        <field name="estimated_amount">2500</field>
+        <field name="actual_amount">500</field>
+        <field name="payment_state">partial</field>
+    </record>
+
+    <record id="demo_budget_flowers" model="wedding.budget.line">
+        <field name="wedding_id" ref="demo_wedding"/>
+        <field name="category_id" ref="category_flowers"/>
+        <field name="description">Ramo y centros de mesa</field>
+        <field name="vendor_id" ref="demo_partner_flowers"/>
+        <field name="estimated_amount">800</field>
+        <field name="actual_amount">0</field>
+        <field name="payment_state">unpaid</field>
+    </record>
+
+    <record id="demo_budget_venue" model="wedding.budget.line">
+        <field name="wedding_id" ref="demo_wedding"/>
+        <field name="category_id" ref="category_rental"/>
+        <field name="description">Alquiler de finca</field>
+        <field name="estimated_amount">4000</field>
+        <field name="actual_amount">4000</field>
+        <field name="payment_state">paid</field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Demo: tasks                                                  -->
+    <!-- ============================================================ -->
+
+    <record id="demo_task_1" model="wedding.task">
+        <field name="wedding_id" ref="demo_wedding"/>
+        <field name="name">Confirmar menú con el catering</field>
+        <field name="due_date" eval="datetime.today() + timedelta(days=15)"/>
+        <field name="priority">2</field>
+        <field name="state">in_progress</field>
+    </record>
+
+    <record id="demo_task_2" model="wedding.task">
+        <field name="wedding_id" ref="demo_wedding"/>
+        <field name="name">Enviar recordatorio a invitados</field>
+        <field name="due_date" eval="datetime.today() + timedelta(days=30)"/>
+        <field name="priority">1</field>
+        <field name="state">pending</field>
+    </record>
+
+    <record id="demo_task_3" model="wedding.task">
+        <field name="wedding_id" ref="demo_wedding"/>
+        <field name="name">Contratar grupo musical</field>
+        <field name="due_date" eval="datetime.today() - timedelta(days=3)"/>
+        <field name="priority">3</field>
+        <field name="state">pending</field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Demo: timeline events                                        -->
+    <!-- ============================================================ -->
+
+    <record id="demo_timeline_ceremony" model="wedding.timeline.event">
+        <field name="wedding_id" ref="demo_wedding"/>
+        <field name="type_id" ref="timeline_ceremony"/>
+        <field name="start_time" eval="DateTime.now() + timedelta(days=60)"/>
+        <field name="end_time" eval="DateTime.now() + timedelta(days=60, hours=1)"/>
+        <field name="location">Iglesia San Pedro</field>
+    </record>
+
+    <record id="demo_timeline_cocktail" model="wedding.timeline.event">
+        <field name="wedding_id" ref="demo_wedding"/>
+        <field name="type_id" ref="timeline_cocktail"/>
+        <field name="start_time" eval="DateTime.now() + timedelta(days=60, hours=1)"/>
+        <field name="end_time" eval="DateTime.now() + timedelta(days=60, hours=2)"/>
+        <field name="location">Jardín de la finca</field>
+    </record>
+
+    <record id="demo_timeline_banquet" model="wedding.timeline.event">
+        <field name="wedding_id" ref="demo_wedding"/>
+        <field name="type_id" ref="timeline_banquet"/>
+        <field name="start_time" eval="DateTime.now() + timedelta(days=60, hours=2)"/>
+        <field name="end_time" eval="DateTime.now() + timedelta(days=60, hours=5)"/>
+        <field name="location">Salón principal</field>
+    </record>
+
+    <record id="demo_timeline_dance" model="wedding.timeline.event">
+        <field name="wedding_id" ref="demo_wedding"/>
+        <field name="type_id" ref="timeline_dance"/>
+        <field name="start_time" eval="DateTime.now() + timedelta(days=60, hours=5)"/>
+        <field name="end_time" eval="DateTime.now() + timedelta(days=60, hours=8)"/>
+        <field name="location">Salón principal</field>
+    </record>
+
+</odoo>

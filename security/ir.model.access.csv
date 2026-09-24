@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_wedding_event_coordinator,wedding.event coordinator,model_wedding_event,group_wedding_coordinator,1,1,1,1
+access_wedding_guest_coordinator,wedding.guest coordinator,model_wedding_guest,group_wedding_coordinator,1,1,1,1
+access_wedding_table_coordinator,wedding.table coordinator,model_wedding_table,group_wedding_coordinator,1,1,1,1
+access_wedding_vendor_booking_coordinator,wedding.vendor.booking coordinator,model_wedding_vendor_booking,group_wedding_coordinator,1,1,1,1
+access_wedding_budget_line_coordinator,wedding.budget.line coordinator,model_wedding_budget_line,group_wedding_coordinator,1,1,1,1
+access_wedding_task_coordinator,wedding.task coordinator,model_wedding_task,group_wedding_coordinator,1,1,1,1
+access_wedding_timeline_event_coordinator,wedding.timeline.event coordinator,model_wedding_timeline_event,group_wedding_coordinator,1,1,1,1
+access_wedding_budget_category_coordinator,wedding.budget.category coordinator read,model_wedding_budget_category,group_wedding_coordinator,1,0,0,0
+access_wedding_budget_category_manager,wedding.budget.category manager,model_wedding_budget_category,group_wedding_manager,1,1,1,1
+access_wedding_timeline_type_coordinator,wedding.timeline.type coordinator read,model_wedding_timeline_type,group_wedding_coordinator,1,0,0,0
+access_wedding_timeline_type_manager,wedding.timeline.type manager,model_wedding_timeline_type,group_wedding_manager,1,1,1,1

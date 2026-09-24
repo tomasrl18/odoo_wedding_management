@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================ -->
+    <!-- wedding.timeline.event views                                 -->
+    <!-- ============================================================ -->
+
+    <record id="view_wedding_timeline_event_form" model="ir.ui.view">
+        <field name="name">wedding.timeline.event.form</field>
+        <field name="model">wedding.timeline.event</field>
+        <field name="arch" type="xml">
+            <form string="Timeline Event">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="wedding_id"/>
+                            <field name="type_id"/>
+                            <field name="responsible_id"/>
+                        </group>
+                        <group>
+                            <field name="start_time"/>
+                            <field name="end_time"/>
+                            <field name="location"/>
+                        </group>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1" colspan="2"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_wedding_timeline_event_tree" model="ir.ui.view">
+        <field name="name">wedding.timeline.event.tree</field>
+        <field name="model">wedding.timeline.event</field>
+        <field name="arch" type="xml">
+            <tree string="Timeline Events">
+                <field name="wedding_id"/>
+                <field name="start_time"/>
+                <field name="end_time"/>
+                <field name="type_id"/>
+                <field name="location"/>
+                <field name="responsible_id"/>
+                <field name="notes"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_wedding_timeline_event_search" model="ir.ui.view">
+        <field name="name">wedding.timeline.event.search</field>
+        <field name="model">wedding.timeline.event</field>
+        <field name="arch" type="xml">
+            <search string="Timeline Events">
+                <field name="wedding_id"/>
+                <field name="type_id"/>
+                <field name="responsible_id"/>
+                <group expand="0" string="Group By">
+                    <filter string="Wedding" name="group_wedding"
+                            context="{'group_by': 'wedding_id'}"/>
+                    <filter string="Event Type" name="group_type"
+                            context="{'group_by': 'type_id'}"/>
+                    <filter string="Responsible" name="group_responsible"
+                            context="{'group_by': 'responsible_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_wedding_timeline_event" model="ir.actions.act_window">
+        <field name="name">Timeline</field>
+        <field name="res_model">wedding.timeline.event</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_wedding_timeline_event_search"/>
+        <field name="context">{'group_by': 'wedding_id'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Plan the wedding day
+            </p>
+            <p>Register the activities of the day: ceremony, cocktail, banquet...</p>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- wedding.timeline.type views (configuration)                  -->
+    <!-- ============================================================ -->
+
+    <record id="view_wedding_timeline_type_form" model="ir.ui.view">
+        <field name="name">wedding.timeline.type.form</field>
+        <field name="model">wedding.timeline.type</field>
+        <field name="arch" type="xml">
+            <form string="Timeline Event Type">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="name"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_wedding_timeline_type_tree" model="ir.ui.view">
+        <field name="name">wedding.timeline.type.tree</field>
+        <field name="model">wedding.timeline.type</field>
+        <field name="arch" type="xml">
+            <tree string="Timeline Event Types" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_wedding_timeline_type" model="ir.actions.act_window">
+        <field name="name">Timeline Event Types</field>
+        <field name="res_model">wedding.timeline.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

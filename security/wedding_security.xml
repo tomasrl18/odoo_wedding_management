@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="module_category_wedding" model="ir.module.category">
+        <field name="name">Wedding Management</field>
+        <field name="description">Wedding planner management</field>
+        <field name="sequence">30</field>
+    </record>
+
+    <record id="group_wedding_coordinator" model="res.groups">
+        <field name="name">Wedding Coordinator</field>
+        <field name="category_id" ref="module_category_wedding"/>
+        <field name="comment">Manage weddings, guests, tables, vendors, budgets and tasks.</field>
+    </record>
+
+    <record id="group_wedding_manager" model="res.groups">
+        <field name="name">Wedding Manager</field>
+        <field name="category_id" ref="module_category_wedding"/>
+        <field name="implied_ids" eval="[(4, ref('group_wedding_coordinator'))]"/>
+        <field name="comment">Configure categories and manage all wedding records of the company.</field>
+    </record>
+
+    <!-- Multi-company record rules -->
+    <data noupdate="1">
+
+    <record id="rule_wedding_event_company" model="ir.rule">
+        <field name="name">Wedding Event: multi-company</field>
+        <field name="model_id" ref="model_wedding_event"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_wedding_guest_company" model="ir.rule">
+        <field name="name">Wedding Guest: multi-company</field>
+        <field name="model_id" ref="model_wedding_guest"/>
+        <field name="domain_force">['|', ('wedding_id.company_id', '=', False), ('wedding_id.company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_wedding_table_company" model="ir.rule">
+        <field name="name">Wedding Table: multi-company</field>
+        <field name="model_id" ref="model_wedding_table"/>
+        <field name="domain_force">['|', ('wedding_id.company_id', '=', False), ('wedding_id.company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_wedding_vendor_booking_company" model="ir.rule">
+        <field name="name">Wedding Vendor Booking: multi-company</field>
+        <field name="model_id" ref="model_wedding_vendor_booking"/>
+        <field name="domain_force">['|', ('wedding_id.company_id', '=', False), ('wedding_id.company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_wedding_budget_line_company" model="ir.rule">
+        <field name="name">Wedding Budget Line: multi-company</field>
+        <field name="model_id" ref="model_wedding_budget_line"/>
+        <field name="domain_force">['|', ('wedding_id.company_id', '=', False), ('wedding_id.company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_wedding_task_company" model="ir.rule">
+        <field name="name">Wedding Task: multi-company</field>
+        <field name="model_id" ref="model_wedding_task"/>
+        <field name="domain_force">['|', ('wedding_id.company_id', '=', False), ('wedding_id.company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_wedding_timeline_event_company" model="ir.rule">
+        <field name="name">Wedding Timeline Event: multi-company</field>
+        <field name="model_id" ref="model_wedding_timeline_event"/>
+        <field name="domain_force">['|', ('wedding_id.company_id', '=', False), ('wedding_id.company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_wedding_budget_category_company" model="ir.rule">
+        <field name="name">Wedding Budget Category: global</field>
+        <field name="model_id" ref="model_wedding_budget_category"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <record id="rule_wedding_timeline_type_company" model="ir.rule">
+        <field name="name">Wedding Timeline Type: global</field>
+        <field name="model_id" ref="model_wedding_timeline_type"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    </data>
+
+</odoo>

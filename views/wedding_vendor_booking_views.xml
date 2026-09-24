@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================ -->
+    <!-- wedding.vendor.booking views                                 -->
+    <!-- ============================================================ -->
+
+    <record id="view_wedding_vendor_booking_form" model="ir.ui.view">
+        <field name="name">wedding.vendor.booking.form</field>
+        <field name="model">wedding.vendor.booking</field>
+        <field name="arch" type="xml">
+            <form string="Vendor Booking">
+                <header>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="proposal,contracted,completed"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="wedding_id"/>
+                            <field name="partner_id"/>
+                            <field name="service_type"/>
+                            <field name="description"/>
+                        </group>
+                        <group>
+                            <field name="contract_date"/>
+                            <field name="amount_agreed"/>
+                            <field name="advance_paid"/>
+                            <field name="balance_due"/>
+                            <field name="payment_due_date"/>
+                        </group>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1" colspan="2"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_wedding_vendor_booking_tree" model="ir.ui.view">
+        <field name="name">wedding.vendor.booking.tree</field>
+        <field name="model">wedding.vendor.booking</field>
+        <field name="arch" type="xml">
+            <tree string="Vendor Bookings"
+                  decoration-warning="state == 'pending_confirmation'"
+                  decoration-muted="state == 'cancelled'">
+                <field name="wedding_id"/>
+                <field name="partner_id"/>
+                <field name="service_type"/>
+                <field name="description"/>
+                <field name="contract_date"/>
+                <field name="amount_agreed" sum="Total Agreed"/>
+                <field name="advance_paid"/>
+                <field name="balance_due"/>
+                <field name="payment_due_date"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_wedding_vendor_booking_search" model="ir.ui.view">
+        <field name="name">wedding.vendor.booking.search</field>
+        <field name="model">wedding.vendor.booking</field>
+        <field name="arch" type="xml">
+            <search string="Vendor Bookings">
+                <field name="partner_id"/>
+                <field name="description"/>
+                <field name="wedding_id"/>
+                <filter string="Proposal" name="filter_proposal"
+                        domain="[('state', '=', 'proposal')]"/>
+                <filter string="Pending Confirmation" name="filter_pending_confirmation"
+                        domain="[('state', '=', 'pending_confirmation')]"/>
+                <filter string="Contracted" name="filter_contracted"
+                        domain="[('state', '=', 'contracted')]"/>
+                <filter string="Completed" name="filter_completed"
+                        domain="[('state', '=', 'completed')]"/>
+                <filter string="Cancelled" name="filter_cancelled"
+                        domain="[('state', '=', 'cancelled')]"/>
+                <separator/>
+                <filter string="Payment Due Soon" name="filter_payment_due"
+                        date="payment_due_date"
+                        context="{'from': 'today', 'to': '+7 days'}"/>
+                <group expand="0" string="Group By">
+                    <filter string="Wedding" name="group_wedding"
+                            context="{'group_by': 'wedding_id'}"/>
+                    <filter string="Vendor" name="group_vendor"
+                            context="{'group_by': 'partner_id'}"/>
+                    <filter string="Service Type" name="group_service"
+                            context="{'group_by': 'service_type'}"/>
+                    <filter string="Status" name="group_state"
+                            context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_wedding_vendor_booking" model="ir.actions.act_window">
+        <field name="name">Vendors</field>
+        <field name="res_model">wedding.vendor.booking</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_wedding_vendor_booking_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Contract a vendor
+            </p>
+            <p>Register the services hired for each wedding.</p>
+        </field>
+    </record>
+
+</odoo>

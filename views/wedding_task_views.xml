@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================ -->
+    <!-- wedding.task views                                           -->
+    <!-- ============================================================ -->
+
+    <record id="view_wedding_task_form" model="ir.ui.view">
+        <field name="name">wedding.task.form</field>
+        <field name="model">wedding.task</field>
+        <field name="arch" type="xml">
+            <form string="Task">
+                <header>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="pending,in_progress,done"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Blocked"
+                            bg_color="bg-danger" attrs="{'invisible': [('state', '!=', 'blocked')]}"/>
+                    <widget name="web_ribbon" title="Overdue"
+                            bg_color="bg-warning" attrs="{'invisible': [('is_overdue', '=', False)]}"/>
+                    <group>
+                        <group>
+                            <field name="wedding_id"/>
+                            <field name="name"/>
+                            <field name="responsible_id"/>
+                        </group>
+                        <group>
+                            <field name="due_date"/>
+                            <field name="priority" widget="priority"/>
+                            <field name="is_overdue"/>
+                        </group>
+                    </group>
+                    <group string="Description">
+                        <field name="description" nolabel="1" colspan="2"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_wedding_task_tree" model="ir.ui.view">
+        <field name="name">wedding.task.tree</field>
+        <field name="model">wedding.task</field>
+        <field name="arch" type="xml">
+            <tree string="Tasks"
+                  decoration-danger="is_overdue"
+                  decoration-muted="state == 'done'">
+                <field name="wedding_id"/>
+                <field name="name"/>
+                <field name="responsible_id"/>
+                <field name="due_date"/>
+                <field name="priority" widget="priority"/>
+                <field name="state"/>
+                <field name="is_overdue"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_wedding_task_kanban" model="ir.ui.view">
+        <field name="name">wedding.task.kanban</field>
+        <field name="model">wedding.task</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="wedding_id"/>
+                <field name="responsible_id"/>
+                <field name="due_date"/>
+                <field name="priority"/>
+                <field name="state"/>
+                <field name="is_overdue"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <field name="name" class="fw-bolder"/>
+                                <div class="text-muted">
+                                    <field name="wedding_id"/>
+                                </div>
+                                <div class="text-muted">
+                                    <i class="fa fa-user" title="Responsible"/>
+                                    <field name="responsible_id"/>
+                                </div>
+                                <div class="text-muted"
+                                     attrs="{'invisible': [('due_date', '=', False)]}">
+                                    <i class="fa fa-calendar" title="Due date"/>
+                                    <field name="due_date"/>
+                                </div>
+                            </div>
+                            <div class="oe_kanban_bottom_right">
+                                <field name="priority" widget="priority"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_wedding_task_search" model="ir.ui.view">
+        <field name="name">wedding.task.search</field>
+        <field name="model">wedding.task</field>
+        <field name="arch" type="xml">
+            <search string="Tasks">
+                <field name="name"/>
+                <field name="wedding_id"/>
+                <field name="responsible_id"/>
+                <filter string="Overdue" name="filter_overdue"
+                        domain="[('is_overdue', '=', True), ('state', '!=', 'done')]"/>
+                <filter string="Due Today" name="filter_due_today"
+                        date="due_date" context="{'from': 'today', 'to': 'today'}"/>
+                <separator/>
+                <filter string="Pending" name="filter_pending"
+                        domain="[('state', '=', 'pending')]"/>
+                <filter string="In Progress" name="filter_in_progress"
+                        domain="[('state', '=', 'in_progress')]"/>
+                <filter string="Blocked" name="filter_blocked"
+                        domain="[('state', '=', 'blocked')]"/>
+                <filter string="Done" name="filter_done"
+                        domain="[('state', '=', 'done')]"/>
+                <separator/>
+                <filter string="My Tasks" name="filter_my"
+                        domain="[('responsible_id', '=', uid)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Wedding" name="group_wedding"
+                            context="{'group_by': 'wedding_id'}"/>
+                    <filter string="Responsible" name="group_responsible"
+                            context="{'group_by': 'responsible_id'}"/>
+                    <filter string="Priority" name="group_priority"
+                            context="{'group_by': 'priority'}"/>
+                    <filter string="Status" name="group_state"
+                            context="{'group_by': 'state'}"/>
+                    <filter string="Due Date" name="group_due"
+                            context="{'group_by': 'due_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_wedding_task" model="ir.actions.act_window">
+        <field name="name">Tasks</field>
+        <field name="res_model">wedding.task</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="search_view_id" ref="view_wedding_task_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a task
+            </p>
+            <p>Organize the preparation work of each wedding.</p>
+        </field>
+    </record>
+
+</odoo>

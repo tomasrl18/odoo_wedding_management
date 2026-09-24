@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================ -->
+    <!-- wedding.budget.line views                                    -->
+    <!-- ============================================================ -->
+
+    <record id="view_wedding_budget_line_form" model="ir.ui.view">
+        <field name="name">wedding.budget.line.form</field>
+        <field name="model">wedding.budget.line</field>
+        <field name="arch" type="xml">
+            <form string="Budget Line">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="wedding_id"/>
+                            <field name="category_id"/>
+                            <field name="description"/>
+                            <field name="vendor_id"/>
+                        </group>
+                        <group>
+                            <field name="estimated_amount"/>
+                            <field name="actual_amount"/>
+                            <field name="payment_state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_wedding_budget_line_tree" model="ir.ui.view">
+        <field name="name">wedding.budget.line.tree</field>
+        <field name="model">wedding.budget.line</field>
+        <field name="arch" type="xml">
+            <tree string="Budget Lines"
+                  decoration-danger="actual_amount &gt; estimated_amount and estimated_amount &gt; 0">
+                <field name="wedding_id"/>
+                <field name="category_id"/>
+                <field name="description"/>
+                <field name="vendor_id"/>
+                <field name="estimated_amount" sum="Estimated"/>
+                <field name="actual_amount" sum="Actual"/>
+                <field name="payment_state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_wedding_budget_line_search" model="ir.ui.view">
+        <field name="name">wedding.budget.line.search</field>
+        <field name="model">wedding.budget.line</field>
+        <field name="arch" type="xml">
+            <search string="Budget Lines">
+                <field name="description"/>
+                <field name="vendor_id"/>
+                <field name="wedding_id"/>
+                <field name="category_id"/>
+                <filter string="Unpaid" name="filter_unpaid"
+                        domain="[('payment_state', '=', 'unpaid')]"/>
+                <filter string="Partially Paid" name="filter_partial"
+                        domain="[('payment_state', '=', 'partial')]"/>
+                <filter string="Paid" name="filter_paid"
+                        domain="[('payment_state', '=', 'paid')]"/>
+                <separator/>
+                <filter string="Over Estimated" name="filter_over"
+                        domain="[('actual_amount', '>', 'estimated_amount')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Wedding" name="group_wedding"
+                            context="{'group_by': 'wedding_id'}"/>
+                    <filter string="Category" name="group_category"
+                            context="{'group_by': 'category_id'}"/>
+                    <filter string="Vendor" name="group_vendor"
+                            context="{'group_by': 'vendor_id'}"/>
+                    <filter string="Payment Status" name="group_payment"
+                            context="{'group_by': 'payment_state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_wedding_budget_line" model="ir.actions.act_window">
+        <field name="name">Budgets</field>
+        <field name="res_model">wedding.budget.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_wedding_budget_line_search"/>
+        <field name="context">{'group_by': 'category_id'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add a budget line
+            </p>
+            <p>Control estimated and actual costs per category.</p>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- wedding.budget.category views (configuration)                -->
+    <!-- ============================================================ -->
+
+    <record id="view_wedding_budget_category_form" model="ir.ui.view">
+        <field name="name">wedding.budget.category.form</field>
+        <field name="model">wedding.budget.category</field>
+        <field name="arch" type="xml">
+            <form string="Budget Category">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="name"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_wedding_budget_category_tree" model="ir.ui.view">
+        <field name="name">wedding.budget.category.tree</field>
+        <field name="model">wedding.budget.category</field>
+        <field name="arch" type="xml">
+            <tree string="Budget Categories" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_wedding_budget_category" model="ir.actions.act_window">
+        <field name="name">Budget Categories</field>
+        <field name="res_model">wedding.budget.category</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

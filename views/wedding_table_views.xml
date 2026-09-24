@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================ -->
+    <!-- wedding.table views                                          -->
+    <!-- ============================================================ -->
+
+    <record id="view_wedding_table_form" model="ir.ui.view">
+        <field name="name">wedding.table.form</field>
+        <field name="model">wedding.table</field>
+        <field name="arch" type="xml">
+            <form string="Table">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="wedding_id"/>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="capacity"/>
+                            <field name="occupancy"/>
+                            <field name="free_seats"/>
+                        </group>
+                    </group>
+                    <group string="Assigned Guests">
+                        <field name="guest_ids" nolabel="1" colspan="2">
+                            <tree>
+                                <field name="name"/>
+                                <field name="partner_id"/>
+                                <field name="confirmed_companions"/>
+                                <field name="actual_attendees"/>
+                                <field name="attendance_state"/>
+                                <field name="menu_choice"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_wedding_table_tree" model="ir.ui.view">
+        <field name="name">wedding.table.tree</field>
+        <field name="model">wedding.table</field>
+        <field name="arch" type="xml">
+            <tree string="Tables"
+                  decoration-danger="free_seats &lt;= 0"
+                  decoration-info="free_seats &gt; 0 and occupancy &gt; 0">
+                <field name="wedding_id"/>
+                <field name="name"/>
+                <field name="capacity"/>
+                <field name="occupancy"/>
+                <field name="free_seats"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_wedding_table_search" model="ir.ui.view">
+        <field name="name">wedding.table.search</field>
+        <field name="model">wedding.table</field>
+        <field name="arch" type="xml">
+            <search string="Tables">
+                <field name="name"/>
+                <field name="wedding_id"/>
+                <filter string="Full Tables" name="filter_full"
+                        domain="[('free_seats', '=', 0)]"/>
+                <filter string="Available Seats" name="filter_available"
+                        domain="[('free_seats', '>', 0)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Wedding" name="group_wedding"
+                            context="{'group_by': 'wedding_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_wedding_table" model="ir.actions.act_window">
+        <field name="name">Tables</field>
+        <field name="res_model">wedding.table</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_wedding_table_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a table
+            </p>
+            <p>Assign confirmed guests to tables without exceeding capacity.</p>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,423 @@
+# Translation template for wedding_management
+# Copyright (C) 2026 InCloud Solutions
+# This file is distributed under the Other proprietary license.
+msgid ""
+msgstr ""
+"Project-Id-Version: wedding_management\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-24 00:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+\n#: wedding_vendor_booking.py:48
+msgid "Accommodation"
+msgstr ""
+
+\n#: wedding_budget_line.py:19
+msgid "Actual Amount"
+msgstr ""
+
+\n#: wedding_guest.py:57
+msgid "Actual Attendees"
+msgstr ""
+
+\n#: wedding_event.py:85
+msgid "Actual Spend"
+msgstr ""
+
+\n#: wedding_vendor_booking.py:21
+msgid "Advance Paid"
+msgstr ""
+
+\n#: wedding_vendor_booking.py:18
+msgid "Agreed Amount"
+msgstr ""
+
+\n#: wedding_guest.py:19
+msgid "Allowed Companions"
+msgstr ""
+
+\n#: wedding_guest.py:37
+msgid "Answered"
+msgstr ""
+
+\n#: wedding_table.py:21
+msgid "Assigned Guests"
+msgstr ""
+
+\n#: wedding_guest.py:50
+msgid "Attendance"
+msgstr ""
+
+\n#: wedding_vendor_booking.py:70
+msgid "Balance Due"
+msgstr ""
+
+\n#: wedding_task.py:41
+msgid "Blocked"
+msgstr ""
+
+\n#: wedding_event.py:89
+msgid "Budget Difference"
+msgstr ""
+
+\n#: wedding_event.py:47
+msgid "Budget Lines"
+msgstr ""
+
+\n#: wedding_event.py:64
+msgid "Budget Lines Count"
+msgstr ""
+
+\n#: wedding_event.py:95
+msgid "Budget Usage (%)"
+msgstr ""
+
+\n#: wedding_budget_line.py:55
+msgid "Budget amounts cannot be negative."
+msgstr ""
+
+\n#: wedding_event.py:107\n#: wedding_vendor_booking.py:61
+msgid "Cancelled"
+msgstr ""
+
+\n#: wedding_table.py:15
+msgid "Capacity"
+msgstr ""
+
+\n#: wedding_budget_line.py:26
+msgid "Category"
+msgstr ""
+
+\n#: wedding_budget_category.py:11
+msgid "Category Name"
+msgstr ""
+
+\n#: wedding_vendor_booking.py:41
+msgid "Catering"
+msgstr ""
+
+\n#: wedding_event.py:106
+msgid "Celebrated"
+msgstr ""
+
+\n#: wedding_event.py:34
+msgid "Company"
+msgstr ""
+
+\n#: wedding_vendor_booking.py:60
+msgid "Completed"
+msgstr ""
+
+\n#: wedding_event.py:105\n#: wedding_guest.py:47
+msgid "Confirmed"
+msgstr ""
+
+\n#: wedding_guest.py:22
+msgid "Confirmed Companions"
+msgstr ""
+
+\n#: wedding_event.py:70
+msgid "Confirmed Guests"
+msgstr ""
+
+\n#: wedding_guest.py:27
+msgid "Contact"
+msgstr ""
+
+\n#: wedding_vendor_booking.py:16
+msgid "Contract Date"
+msgstr ""
+
+\n#: wedding_vendor_booking.py:59
+msgid "Contracted"
+msgstr ""
+
+\n#: wedding_event.py:16
+msgid "Date & Time"
+msgstr ""
+
+\n#: wedding_guest.py:48
+msgid "Declined"
+msgstr ""
+
+\n#: wedding_vendor_booking.py:46
+msgid "Decoration"
+msgstr ""
+
+\n#: wedding_budget_line.py:14\n#: wedding_task.py:15\n#: wedding_vendor_booking.py:15
+msgid "Description"
+msgstr ""
+
+\n#: wedding_task.py:42
+msgid "Done"
+msgstr ""
+
+\n#: wedding_event.py:103
+msgid "Draft"
+msgstr ""
+
+\n#: wedding_task.py:16
+msgid "Due Date"
+msgstr ""
+
+\n#: wedding_guest.py:17
+msgid "Email"
+msgstr ""
+
+\n#: wedding_timeline_event.py:15
+msgid "End Time"
+msgstr ""
+
+\n#: wedding_budget_line.py:16
+msgid "Estimated Amount"
+msgstr ""
+
+\n#: wedding_event.py:81
+msgid "Estimated Budget"
+msgstr ""
+
+\n#: wedding_timeline_type.py:11
+msgid "Event Name"
+msgstr ""
+
+\n#: wedding_timeline_event.py:23
+msgid "Event Type"
+msgstr ""
+
+\n#: wedding_event.py:21
+msgid "Expected Guests"
+msgstr ""
+
+\n#: wedding_vendor_booking.py:45
+msgid "Flowers"
+msgstr ""
+
+\n#: wedding_table.py:31
+msgid "Free Seats"
+msgstr ""
+
+\n#: wedding_event.py:41
+msgid "Guests"
+msgstr ""
+
+\n#: wedding_event.py:55
+msgid "Guests Count"
+msgstr ""
+
+\n#: wedding_task.py:40
+msgid "In Progress"
+msgstr ""
+
+\n#: wedding_guest.py:39
+msgid "Invitation Status"
+msgstr ""
+
+\n#: wedding_timeline_event.py:16
+msgid "Location"
+msgstr ""
+
+\n#: wedding_guest.py:24
+msgid "Menu Choice"
+msgstr ""
+
+\n#: wedding_vendor_booking.py:44
+msgid "Music"
+msgstr ""
+
+\n#: wedding_guest.py:15
+msgid "Name"
+msgstr ""
+
+\n#: wedding_guest.py:25\n#: wedding_timeline_event.py:17\n#: wedding_vendor_booking.py:24
+msgid "Notes"
+msgstr ""
+
+\n#: wedding_table.py:25
+msgid "Occupancy"
+msgstr ""
+
+\n#: wedding_vendor_booking.py:49
+msgid "Other"
+msgstr ""
+
+\n#: wedding_task.py:51
+msgid "Overdue"
+msgstr ""
+
+\n#: wedding_budget_line.py:40
+msgid "Paid"
+msgstr ""
+
+\n#: wedding_budget_line.py:39
+msgid "Partially Paid"
+msgstr ""
+
+\n#: wedding_event.py:24
+msgid "Partner 1"
+msgstr ""
+
+\n#: wedding_event.py:27
+msgid "Partner 2"
+msgstr ""
+
+\n#: wedding_vendor_booking.py:23
+msgid "Payment Due Date"
+msgstr ""
+
+\n#: wedding_budget_line.py:42
+msgid "Payment Status"
+msgstr ""
+
+\n#: wedding_guest.py:35\n#: wedding_guest.py:46\n#: wedding_task.py:39
+msgid "Pending"
+msgstr ""
+
+\n#: wedding_vendor_booking.py:58
+msgid "Pending Confirmation"
+msgstr ""
+
+\n#: wedding_event.py:75
+msgid "Pending Guests"
+msgstr ""
+
+\n#: wedding_event.py:78
+msgid "Pending Tasks"
+msgstr ""
+
+\n#: wedding_guest.py:16
+msgid "Phone"
+msgstr ""
+
+\n#: wedding_vendor_booking.py:42
+msgid "Photography"
+msgstr ""
+
+\n#: wedding_event.py:104
+msgid "Planning"
+msgstr ""
+
+\n#: wedding_task.py:33
+msgid "Priority"
+msgstr ""
+
+\n#: wedding_vendor_booking.py:57
+msgid "Proposal"
+msgstr ""
+
+\n#: wedding_event.py:30\n#: wedding_task.py:22\n#: wedding_timeline_event.py:25
+msgid "Responsible"
+msgstr ""
+
+\n#: wedding_guest.py:36
+msgid "Sent"
+msgstr ""
+
+\n#: wedding_vendor_booking.py:51
+msgid "Service Type"
+msgstr ""
+
+\n#: wedding_timeline_event.py:14
+msgid "Start Time"
+msgstr ""
+
+\n#: wedding_event.py:109\n#: wedding_task.py:44\n#: wedding_vendor_booking.py:63
+msgid "Status"
+msgstr ""
+
+\n#: wedding_guest.py:31
+msgid "Table"
+msgstr ""
+
+\n#: wedding_table.py:14
+msgid "Table Name / Number"
+msgstr ""
+
+\n#: wedding_event.py:98
+msgid "Table Occupancy (%)"
+msgstr ""
+
+\n#: wedding_event.py:42
+msgid "Tables"
+msgstr ""
+
+\n#: wedding_event.py:58
+msgid "Tables Count"
+msgstr ""
+
+\n#: wedding_event.py:19
+msgid "Target Budget"
+msgstr ""
+
+\n#: wedding_event.py:49
+msgid "Tasks"
+msgstr ""
+
+\n#: wedding_event.py:67
+msgid "Tasks Count"
+msgstr ""
+
+\n#: wedding_table.py:52
+msgid "The table capacity must be positive."
+msgstr ""
+
+\n#: wedding_event.py:215
+msgid "The two partners of the wedding must be different."
+msgstr ""
+
+\n#: wedding_event.py:223
+msgid "The wedding date cannot be in the past."
+msgstr ""
+
+\n#: wedding_event.py:51
+msgid "Timeline Events"
+msgstr ""
+
+\n#: wedding_task.py:14
+msgid "Title"
+msgstr ""
+
+\n#: wedding_vendor_booking.py:47
+msgid "Transport"
+msgstr ""
+
+\n#: wedding_budget_line.py:38
+msgid "Unpaid"
+msgstr ""
+
+\n#: wedding_budget_line.py:28\n#: wedding_vendor_booking.py:27
+msgid "Vendor"
+msgstr ""
+
+\n#: wedding_event.py:44
+msgid "Vendor Bookings"
+msgstr ""
+
+\n#: wedding_vendor_booking.py:92
+msgid "Vendor booking amounts cannot be negative."
+msgstr ""
+
+\n#: wedding_event.py:61
+msgid "Vendors Count"
+msgstr ""
+
+\n#: wedding_event.py:17
+msgid "Venue"
+msgstr ""
+
+\n#: wedding_vendor_booking.py:43
+msgid "Video"
+msgstr ""
+
+\n#: wedding_budget_line.py:23\n#: wedding_guest.py:29\n#: wedding_table.py:18\n#: wedding_task.py:19\n#: wedding_timeline_event.py:20\n#: wedding_vendor_booking.py:30
+msgid "Wedding"
+msgstr ""
+
+\n#: wedding_event.py:15
+msgid "Wedding Name"
+msgstr ""
+

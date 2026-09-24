@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================ -->
+    <!-- wedding.event views                                          -->
+    <!-- ============================================================ -->
+
+    <record id="view_wedding_event_form" model="ir.ui.view">
+        <field name="name">wedding.event.form</field>
+        <field name="model">wedding.event</field>
+        <field name="arch" type="xml">
+            <form string="Wedding">
+                <header>
+                    <button name="%(wedding_management.action_report_wedding_summary)d"
+                            type="action" string="Print Summary" class="oe_highlight"/>
+                    <button name="%(wedding_management.action_report_wedding_guests_tables)d"
+                            type="action" string="Print Guests &amp; Tables"/>
+                    <button name="%(wedding_management.action_report_wedding_budget)d"
+                            type="action" string="Print Budget"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,planning,confirmed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(wedding_management.action_wedding_guest)d"
+                                type="action" class="oe_stat_button" icon="fa-users"
+                                context="{'domain': [('wedding_id', '=', active_id)]}">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Guests</span>
+                                <span class="o_stat_value"><field name="guest_count"/></span>
+                            </div>
+                        </button>
+                        <button name="%(wedding_management.action_wedding_table)d"
+                                type="action" class="oe_stat_button" icon="fa-table"
+                                context="{'domain': [('wedding_id', '=', active_id)]}">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Tables</span>
+                                <span class="o_stat_value"><field name="table_count"/></span>
+                            </div>
+                        </button>
+                        <button name="%(wedding_management.action_wedding_vendor_booking)d"
+                                type="action" class="oe_stat_button" icon="fa-truck"
+                                context="{'domain': [('wedding_id', '=', active_id)]}">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Vendors</span>
+                                <span class="o_stat_value"><field name="vendor_count"/></span>
+                            </div>
+                        </button>
+                        <button name="%(wedding_management.action_wedding_budget_line)d"
+                                type="action" class="oe_stat_button" icon="fa-money"
+                                context="{'domain': [('wedding_id', '=', active_id)]}">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Budget</span>
+                                <span class="o_stat_value"><field name="budget_line_count"/></span>
+                            </div>
+                        </button>
+                        <button name="%(wedding_management.action_wedding_task)d"
+                                type="action" class="oe_stat_button" icon="fa-tasks"
+                                context="{'domain': [('wedding_id', '=', active_id)]}">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Tasks</span>
+                                <span class="o_stat_value"><field name="task_count"/></span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Wedding name..."/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_1_id"/>
+                            <field name="partner_2_id"/>
+                            <field name="responsible_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="venue"/>
+                            <field name="target_budget"/>
+                            <field name="expected_guests"/>
+                        </group>
+                    </group>
+                    <group string="Summary" name="summary">
+                        <group>
+                            <field name="estimated_budget"/>
+                            <field name="actual_spend"/>
+                            <field name="budget_diff"/>
+                            <field name="budget_usage_pct"/>
+                        </group>
+                        <group>
+                            <field name="confirmed_guests"/>
+                            <field name="pending_guests"/>
+                            <field name="pending_tasks"/>
+                            <field name="table_occupancy_pct"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Guests" name="guests">
+                            <div class="oe_button_box" name="guest_shortcuts">
+                                <button name="%(wedding_management.action_wedding_guest)d"
+                                        type="action" string="Confirmed" class="btn-secondary"
+                                        context="{'domain': [('wedding_id', '=', active_id), ('attendance_state', '=', 'confirmed')]}"/>
+                                <button name="%(wedding_management.action_wedding_guest)d"
+                                        type="action" string="Pending" class="btn-secondary"
+                                        context="{'domain': [('wedding_id', '=', active_id), ('attendance_state', '=', 'pending')]}"/>
+                            </div>
+                            <field name="guest_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="partner_id"/>
+                                    <field name="phone"/>
+                                    <field name="allowed_companions"/>
+                                    <field name="confirmed_companions"/>
+                                    <field name="actual_attendees"/>
+                                    <field name="invitation_state"/>
+                                    <field name="attendance_state"/>
+                                    <field name="menu_choice"/>
+                                    <field name="table_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Tables" name="tables">
+                            <field name="table_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="capacity"/>
+                                    <field name="occupancy"/>
+                                    <field name="free_seats"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Vendors" name="vendors">
+                            <field name="vendor_booking_ids">
+                                <tree>
+                                    <field name="partner_id"/>
+                                    <field name="service_type"/>
+                                    <field name="description"/>
+                                    <field name="contract_date"/>
+                                    <field name="amount_agreed" sum="Total Agreed"/>
+                                    <field name="advance_paid"/>
+                                    <field name="balance_due"/>
+                                    <field name="payment_due_date"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Budget" name="budget">
+                            <field name="budget_line_ids">
+                                <tree>
+                                    <field name="category_id"/>
+                                    <field name="description"/>
+                                    <field name="vendor_id"/>
+                                    <field name="estimated_amount" sum="Estimated"/>
+                                    <field name="actual_amount" sum="Actual"/>
+                                    <field name="payment_state"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Tasks" name="tasks">
+                            <field name="task_ids">
+                                <tree decoration-danger="is_overdue">
+                                    <field name="name"/>
+                                    <field name="responsible_id"/>
+                                    <field name="due_date"/>
+                                    <field name="priority" widget="priority"/>
+                                    <field name="state"/>
+                                    <field name="is_overdue"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Timeline" name="timeline">
+                            <field name="timeline_event_ids">
+                                <tree>
+                                    <field name="start_time"/>
+                                    <field name="end_time"/>
+                                    <field name="type_id"/>
+                                    <field name="location"/>
+                                    <field name="responsible_id"/>
+                                    <field name="notes"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_wedding_event_tree" model="ir.ui.view">
+        <field name="name">wedding.event.tree</field>
+        <field name="model">wedding.event</field>
+        <field name="arch" type="xml">
+            <tree string="Weddings"
+                  decoration-danger="budget_usage_pct &gt; 100"
+                  decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="partner_1_id"/>
+                <field name="partner_2_id"/>
+                <field name="date"/>
+                <field name="venue"/>
+                <field name="responsible_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="confirmed_guests"/>
+                <field name="pending_guests"/>
+                <field name="pending_tasks"/>
+                <field name="target_budget"/>
+                <field name="actual_spend"/>
+                <field name="budget_usage_pct"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_wedding_event_kanban" model="ir.ui.view">
+        <field name="name">wedding.event.kanban</field>
+        <field name="model">wedding.event</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="state"/>
+                <field name="responsible_id"/>
+                <field name="confirmed_guests"/>
+                <field name="pending_guests"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <field name="name" class="fw-bolder"/>
+                                <div class="text-muted">
+                                    <field name="date"/>
+                                </div>
+                                <div class="text-muted">
+                                    <i class="fa fa-users" title="Guests"/>
+                                    <field name="confirmed_guests"/>
+                                    confirmed /
+                                    <field name="pending_guests"/>
+                                    pending
+                                </div>
+                                <div class="text-muted">
+                                    <field name="responsible_id"/>
+                                </div>
+                            </div>
+                            <div class="oe_kanban_bottom_right">
+                                <field name="state" widget="label_selection"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_wedding_event_calendar" model="ir.ui.view">
+        <field name="name">wedding.event.calendar</field>
+        <field name="model">wedding.event</field>
+        <field name="arch" type="xml">
+            <calendar string="Weddings" date_start="date" color="partner_1_id"
+                     quick_add="False">
+                <field name="name"/>
+                <field name="venue"/>
+                <field name="state"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="view_wedding_event_search" model="ir.ui.view">
+        <field name="name">wedding.event.search</field>
+        <field name="model">wedding.event</field>
+        <field name="arch" type="xml">
+            <search string="Weddings">
+                <field name="name"/>
+                <field name="partner_1_id"/>
+                <field name="partner_2_id"/>
+                <field name="responsible_id"/>
+                <field name="venue"/>
+                <field name="date"/>
+                <filter string="Next 30 Days" name="next_30_days"
+                        date="date"
+                        context="{'from': 'today', 'to': '+30 days'}"/>
+                <separator/>
+                <filter string="Draft" name="filter_draft"
+                        domain="[('state', '=', 'draft')]"/>
+                <filter string="Planning" name="filter_planning"
+                        domain="[('state', '=', 'planning')]"/>
+                <filter string="Confirmed" name="filter_confirmed"
+                        domain="[('state', '=', 'confirmed')]"/>
+                <filter string="Celebrated" name="filter_done"
+                        domain="[('state', '=', 'done')]"/>
+                <filter string="Cancelled" name="filter_cancelled"
+                        domain="[('state', '=', 'cancelled')]"/>
+                <separator/>
+                <filter string="My Weddings" name="filter_my"
+                        domain="[('responsible_id', '=', uid)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="group_state"
+                            context="{'group_by': 'state'}"/>
+                    <filter string="Responsible" name="group_responsible"
+                            context="{'group_by': 'responsible_id'}"/>
+                    <filter string="Month" name="group_month"
+                            context="{'group_by': 'date:month'}"/>
+                    <filter string="Company" name="group_company"
+                            context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_wedding_event" model="ir.actions.act_window">
+        <field name="name">All Weddings</field>
+        <field name="res_model">wedding.event</field>
+        <field name="view_mode">kanban,tree,calendar,form</field>
+        <field name="search_view_id" ref="view_wedding_event_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first wedding
+            </p>
+            <p>Track guests, tables, vendors, budget and tasks in one place.</p>
+        </field>
+    </record>
+
+</odoo>
