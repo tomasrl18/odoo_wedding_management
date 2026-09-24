@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from . import test_wedding_event
 from . import test_wedding_guest
 from . import test_wedding_table

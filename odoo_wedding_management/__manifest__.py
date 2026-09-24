@@ -1,15 +1,16 @@
-# -*- coding: utf-8 -*-
 {
     "name": "Wedding Management",
     "summary": """
         Gestión integral de bodas para empresas wedding planner:
         bodas, invitados, mesas, proveedores, presupuestos, tareas y cronograma.
         """,
-    "author": "InCloud Solutions",
-    "website": "https://incloudsolutions.es/",
-    "license": "Other proprietary",
+    "author": "Tomás Raigal",
+    "maintainer": "Tomás Raigal",
+    "category": "Extra Tools",
+    "license": "LGPL-3",
     "category": "Services",
     "version": "15.0.1.0.0",
+    "currency": "EUR",
     "depends": [
         "base",
         "mail",
@@ -35,4 +36,6 @@
     ],
     "installable": True,
     "application": True,
+    "auto_install": False,
+    "price": 499.99,
 }
