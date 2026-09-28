@@ -38,4 +38,7 @@
     "application": True,
     "auto_install": False,
     "price": 99.99,
+    "images": [
+        "static/description/banner.png",
+    ],
 }
