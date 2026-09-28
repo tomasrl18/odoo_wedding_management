@@ -1,8 +1,8 @@
 {
     "name": "Wedding Management",
     "summary": """
-        Gestión integral de bodas para empresas wedding planner:
-        bodas, invitados, mesas, proveedores, presupuestos, tareas y cronograma.
+        Comprehensive wedding management for wedding planning companies:
+        weddings, guests, tables, vendors, budgets, tasks, and timelines.
         """,
     "author": "Tomás Raigal",
     "maintainer": "Tomás Raigal",
