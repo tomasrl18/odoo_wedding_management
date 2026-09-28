@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
     <!-- ============================================================ -->
@@ -8,157 +8,227 @@
     <template id="report_wedding_summary">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="wedding_management.report_wedding_summary_page"/>
+                <t t-call="wedding_management.report_wedding_summary_page" />
             </t>
         </t>
     </template>
 
     <template id="report_wedding_summary_page">
-        <div class="page">
-            <h2>
-                <span t-field="o.name"/>
-            </h2>
-            <div class="row mt32 mb32">
-                <div class="col-6">
-                    <table class="table table-sm">
+        <t t-call="web.external_layout">
+            <div class="page">
+                <t t-set="title" t-value="o.name" />
+
+                <!-- Header band -->
+                <div class="wm-header">
+                    <table>
                         <tr>
-                            <th><span>Partner 1</span></th>
-                            <td><span t-field="o.partner_1_id"/></td>
-                        </tr>
-                        <tr>
-                            <th><span>Partner 2</span></th>
-                            <td><span t-field="o.partner_2_id"/></td>
-                        </tr>
-                        <tr>
-                            <th><span>Date &amp; Time</span></th>
-                            <td><span t-field="o.date"/></td>
-                        </tr>
-                        <tr>
-                            <th><span>Venue</span></th>
-                            <td><span t-field="o.venue"/></td>
+                            <td style="vertical-align: top;">
+                                <h1><span t-field="o.name" /></h1>
+                                <p class="wm-sub">
+                                    <span t-field="o.date" />
+                                    <t t-if="o.venue">
+                                        <span> · </span><span t-field="o.venue" />
+                                    </t>
+                                </p>
+                            </td>
+                            <td style="vertical-align: top; text-align: right;">
+                                <span class="wm-badge wm-b-{{o.state}}">
+                                    <span t-field="o.state" />
+                                </span>
+                            </td>
                         </tr>
                     </table>
                 </div>
-                <div class="col-6">
-                    <table class="table table-sm">
+
+                <!-- KPI cards -->
+                <table class="wm-kpis">
+                    <tr>
+                        <td class="wm-kpi">
+                            <div class="wm-kpi-label">Guests</div>
+                            <div class="wm-kpi-value">
+                                <span t-field="o.confirmed_guests" />
+                                <span style="font-size: 12px; color: #74808f;"> / <span
+                                        t-field="o.expected_guests"
+                                    /></span>
+                            </div>
+                            <div class="wm-kpi-sub">
+                                <span t-field="o.pending_guests" /> pending
+                            </div>
+                        </td>
+                        <td class="wm-kpi">
+                            <div class="wm-kpi-label">Budget</div>
+                            <div class="wm-kpi-value"><span
+                                    t-field="o.actual_spend"
+                                /></div>
+                            <div class="wm-kpi-sub">
+                                of <span t-field="o.target_budget" /> target
+                            </div>
+                        </td>
+                        <td class="wm-kpi">
+                            <div class="wm-kpi-label">Tables</div>
+                            <div class="wm-kpi-value">
+                                <span t-out="round(o.table_occupancy_pct, 1)" />%
+                            </div>
+                            <div class="wm-kpi-sub">
+                                <span t-field="o.table_count" /> tables
+                            </div>
+                        </td>
+                        <td class="wm-kpi">
+                            <div class="wm-kpi-label">Tasks</div>
+                            <div class="wm-kpi-value"><span
+                                    t-field="o.pending_tasks"
+                                /></div>
+                            <div class="wm-kpi-sub">
+                                <span t-field="o.task_count" /> total
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <!-- Couple & organisation -->
+                <div class="wm-section">
+                    <h3>Couple &amp; Organisation</h3>
+                    <table class="wm-info">
                         <tr>
-                            <th><span>Responsible</span></th>
-                            <td><span t-field="o.responsible_id"/></td>
+                            <th>Partner 1</th>
+                            <td><span t-field="o.partner_1_id" /></td>
+                            <th>Partner 2</th>
+                            <td><span t-field="o.partner_2_id" /></td>
                         </tr>
                         <tr>
-                            <th><span>Company</span></th>
-                            <td><span t-field="o.company_id"/></td>
+                            <th>Responsible</th>
+                            <td><span t-field="o.responsible_id" /></td>
+                            <th>Company</th>
+                            <td><span t-field="o.company_id" /></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Budget overview -->
+                <div class="wm-section">
+                    <h3>Budget Overview</h3>
+                    <t t-set="usage" t-value="o.budget_usage_pct or 0" />
+                    <t
+                        t-set="usage_cls"
+                        t-value="'over' if usage > 100 else 'warn' if usage > 90 else ''"
+                    />
+                    <div class="wm-progress">
+                        <div
+                            class="wm-progress-fill {{usage_cls}}"
+                            t-att-style="'width: {}%'.format(min(usage, 100))"
+                        />
+                    </div>
+                    <table class="wm-info">
+                        <tr>
+                            <th>Target Budget</th>
+                            <td><span t-field="o.target_budget" /></td>
+                            <th>Estimated</th>
+                            <td><span t-field="o.estimated_budget" /></td>
                         </tr>
                         <tr>
-                            <th><span>Status</span></th>
-                            <td><span t-field="o.state"/></td>
+                            <th>Actual Spend</th>
+                            <td><span t-field="o.actual_spend" /></td>
+                            <th>Difference</th>
+                            <td><span t-field="o.budget_diff" /></td>
                         </tr>
                         <tr>
-                            <th><span>Expected Guests</span></th>
-                            <td><span t-field="o.expected_guests"/></td>
+                            <th>Usage</th>
+                            <td>
+                                <span t-out="round(o.budget_usage_pct, 1)" />% of target
+                            </td>
+                            <th>Expected Guests</th>
+                            <td><span t-field="o.expected_guests" /></td>
                         </tr>
+                    </table>
+                </div>
+
+                <!-- Vendors -->
+                <div class="wm-section">
+                    <h3>Vendors</h3>
+                    <table class="wm-table">
+                        <thead>
+                            <tr>
+                                <th>Vendor</th>
+                                <th>Service</th>
+                                <th class="text-right">Agreed Amount</th>
+                                <th class="text-right">Advance Paid</th>
+                                <th class="text-right">Balance Due</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="o.vendor_booking_ids" t-as="v">
+                                <tr>
+                                    <td><span t-field="v.partner_id" /></td>
+                                    <td><span t-field="v.service_type" /></td>
+                                    <td class="text-right"><span
+                                            t-field="v.amount_agreed"
+                                        /></td>
+                                    <td class="text-right"><span
+                                            t-field="v.advance_paid"
+                                        /></td>
+                                    <td class="text-right"><span
+                                            t-field="v.balance_due"
+                                        /></td>
+                                    <td>
+                                        <span class="wm-badge wm-b-{{v.state}}">
+                                            <span t-field="v.state" />
+                                        </span>
+                                    </td>
+                                </tr>
+                            </t>
+                            <tr t-if="not o.vendor_booking_ids">
+                                <td
+                                    colspan="6"
+                                    class="text-muted"
+                                >No vendors contracted.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Tasks -->
+                <div class="wm-section">
+                    <h3>Tasks</h3>
+                    <table class="wm-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Responsible</th>
+                                <th>Due Date</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="o.task_ids" t-as="t">
+                                <tr>
+                                    <td><span t-field="t.name" /></td>
+                                    <td><span t-field="t.responsible_id" /></td>
+                                    <td><span t-field="t.due_date" /></td>
+                                    <td>
+                                        <span class="wm-badge wm-b-{{t.priority}}">
+                                            <span t-field="t.priority" />
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="wm-badge wm-b-{{t.state}}">
+                                            <span t-field="t.state" />
+                                        </span>
+                                    </td>
+                                </tr>
+                            </t>
+                            <tr t-if="not o.task_ids">
+                                <td
+                                    colspan="5"
+                                    class="text-muted"
+                                >No tasks registered.</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
-
-            <h3>Budget Overview</h3>
-            <table class="table table-sm">
-                <thead>
-                    <tr>
-                        <th>Target Budget</th>
-                        <th>Estimated</th>
-                        <th>Actual Spend</th>
-                        <th>Difference</th>
-                        <th>Usage (%)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><span t-field="o.target_budget"/></td>
-                        <td><span t-field="o.estimated_budget"/></td>
-                        <td><span t-field="o.actual_spend"/></td>
-                        <td><span t-field="o.budget_diff"/></td>
-                        <td><span t-esc="round(o.budget_usage_pct, 1)"/></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h3>Guests</h3>
-            <table class="table table-sm">
-                <thead>
-                    <tr>
-                        <th>Confirmed Attendees</th>
-                        <th>Pending Guests</th>
-                        <th>Tables Occupancy (%)</th>
-                        <th>Pending Tasks</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><span t-field="o.confirmed_guests"/></td>
-                        <td><span t-field="o.pending_guests"/></td>
-                        <td><span t-esc="round(o.table_occupancy_pct, 1)"/></td>
-                        <td><span t-field="o.pending_tasks"/></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h3>Vendors</h3>
-            <table class="table table-sm">
-                <thead>
-                    <tr>
-                        <th>Vendor</th>
-                        <th>Service</th>
-                        <th>Agreed Amount</th>
-                        <th>Advance Paid</th>
-                        <th>Balance Due</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <t t-foreach="o.vendor_booking_ids" t-as="v">
-                        <tr>
-                            <td><span t-field="v.partner_id"/></td>
-                            <td><span t-field="v.service_type"/></td>
-                            <td><span t-field="v.amount_agreed"/></td>
-                            <td><span t-field="v.advance_paid"/></td>
-                            <td><span t-field="v.balance_due"/></td>
-                            <td><span t-field="v.state"/></td>
-                        </tr>
-                    </t>
-                    <tr t-if="not o.vendor_booking_ids">
-                        <td colspan="6" class="text-muted">No vendors contracted.</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h3>Tasks</h3>
-            <table class="table table-sm">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Responsible</th>
-                        <th>Due Date</th>
-                        <th>Priority</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <t t-foreach="o.task_ids" t-as="t">
-                        <tr>
-                            <td><span t-field="t.name"/></td>
-                            <td><span t-field="t.responsible_id"/></td>
-                            <td><span t-field="t.due_date"/></td>
-                            <td><span t-field="t.priority"/></td>
-                            <td><span t-field="t.state"/></td>
-                        </tr>
-                    </t>
-                    <tr t-if="not o.task_ids">
-                        <td colspan="5" class="text-muted">No tasks registered.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        </t>
     </template>
 
     <!-- ============================================================ -->
@@ -168,90 +238,137 @@
     <template id="report_wedding_guests_tables">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="wedding_management.report_wedding_guests_tables_page"/>
+                <t t-call="wedding_management.report_wedding_guests_tables_page" />
             </t>
         </t>
     </template>
 
     <template id="report_wedding_guests_tables_page">
-        <div class="page">
-            <h2>
-                <span t-field="o.name"/>
-                <span> — Guests &amp; Tables</span>
-            </h2>
-            <p>
-                <span>Date:</span>
-                <span t-field="o.date"/>
-                <span t-if="o.venue">
-                    <span> | Venue:</span>
-                    <span t-field="o.venue"/>
-                </span>
-            </p>
+        <t t-call="web.external_layout">
+            <t t-set="title" t-value="o.name" />
 
-            <h3>Guests</h3>
-            <table class="table table-sm">
-                <thead>
+            <!-- Header band -->
+            <div class="wm-header">
+                <table>
                     <tr>
-                        <th>Name</th>
-                        <th>Contact</th>
-                        <th>Phone</th>
-                        <th>Companions</th>
-                        <th>Attendance</th>
-                        <th>Menu</th>
-                        <th>Table</th>
+                        <td style="vertical-align: top;">
+                            <h1>
+                                <span t-field="o.name" />
+                                <span
+                                    style="font-weight: 400; font-size: 15px;"
+                                > — Guests &amp; Tables</span>
+                            </h1>
+                            <p class="wm-sub">
+                                <span t-field="o.date" />
+                                <t t-if="o.venue">
+                                    <span> · </span><span t-field="o.venue" />
+                                </t>
+                            </p>
+                        </td>
+                        <td style="vertical-align: top; text-align: right;">
+                            <span class="wm-badge wm-b-{{o.state}}">
+                                <span t-field="o.state" />
+                            </span>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    <t t-foreach="o.guest_ids" t-as="g">
-                        <tr>
-                            <td><span t-field="g.name"/></td>
-                            <td><span t-field="g.partner_id"/></td>
-                            <td><span t-field="g.phone"/></td>
-                            <td>
-                                <span t-field="g.confirmed_companions"/>
-                                <span>/</span>
-                                <span t-field="g.allowed_companions"/>
-                            </td>
-                            <td><span t-field="g.attendance_state"/></td>
-                            <td><span t-field="g.menu_choice"/></td>
-                            <td><span t-field="g.table_id"/></td>
-                        </tr>
-                    </t>
-                    <tr t-if="not o.guest_ids">
-                        <td colspan="7" class="text-muted">No guests registered.</td>
-                    </tr>
-                </tbody>
-            </table>
+                </table>
+            </div>
 
-            <h3>Tables</h3>
-            <table class="table table-sm">
-                <thead>
-                    <tr>
-                        <th>Table</th>
-                        <th>Capacity</th>
-                        <th>Occupancy</th>
-                        <th>Free Seats</th>
-                        <th>Guests</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <t t-foreach="o.table_ids" t-as="tb">
+            <!-- Guests -->
+            <div class="wm-section">
+                <h3>
+                    Guests
+                    <span style="font-weight: 400; font-size: 12px; color: #74808f;">
+                        (<span t-field="o.guest_count" />)
+                    </span>
+                </h3>
+                <table class="wm-table">
+                    <thead>
                         <tr>
-                            <td><span t-field="tb.name"/></td>
-                            <td><span t-field="tb.capacity"/></td>
-                            <td><span t-field="tb.occupancy"/></td>
-                            <td><span t-field="tb.free_seats"/></td>
-                            <td>
-                                <span t-esc="', '.join(tb.guest_ids.mapped('name'))"/>
-                            </td>
+                            <th>Name</th>
+                            <th>Contact</th>
+                            <th>Phone</th>
+                            <th class="text-right">Companions</th>
+                            <th>Attendance</th>
+                            <th>Menu</th>
+                            <th>Table</th>
                         </tr>
-                    </t>
-                    <tr t-if="not o.table_ids">
-                        <td colspan="5" class="text-muted">No tables created.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="o.guest_ids" t-as="g">
+                            <tr>
+                                <td><span t-field="g.name" /></td>
+                                <td><span t-field="g.partner_id" /></td>
+                                <td><span t-field="g.phone" /></td>
+                                <td class="text-right">
+                                    <span t-field="g.confirmed_companions" />
+                                    <span>/</span>
+                                    <span t-field="g.allowed_companions" />
+                                </td>
+                                <td>
+                                    <span class="wm-badge wm-b-{{g.attendance_state}}">
+                                        <span t-field="g.attendance_state" />
+                                    </span>
+                                </td>
+                                <td><span t-field="g.menu_choice" /></td>
+                                <td><span t-field="g.table_id" /></td>
+                            </tr>
+                        </t>
+                        <tr t-if="not o.guest_ids">
+                            <td
+                                colspan="7"
+                                class="text-muted"
+                            >No guests registered.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Tables -->
+            <div class="wm-section">
+                <h3>
+                    Tables
+                    <span style="font-weight: 400; font-size: 12px; color: #74808f;">
+                        (<span t-field="o.table_count" />)
+                    </span>
+                </h3>
+                <table class="wm-table">
+                    <thead>
+                        <tr>
+                            <th>Table</th>
+                            <th class="text-right">Capacity</th>
+                            <th class="text-right">Occupancy</th>
+                            <th class="text-right">Free Seats</th>
+                            <th>Guests</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="o.table_ids" t-as="tb">
+                            <tr>
+                                <td><span t-field="tb.name" /></td>
+                                <td class="text-right"><span
+                                        t-field="tb.capacity"
+                                    /></td>
+                                <td class="text-right"><span
+                                        t-field="tb.occupancy"
+                                    /></td>
+                                <td class="text-right"><span
+                                        t-field="tb.free_seats"
+                                    /></td>
+                                <td>
+                                    <span
+                                        t-out="', '.join(tb.guest_ids.mapped('name'))"
+                                    />
+                                </td>
+                            </tr>
+                        </t>
+                        <tr t-if="not o.table_ids">
+                            <td colspan="5" class="text-muted">No tables created.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </t>
     </template>
 
     <!-- ============================================================ -->
@@ -261,85 +378,155 @@
     <template id="report_wedding_budget">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="wedding_management.report_wedding_budget_page"/>
+                <t t-call="wedding_management.report_wedding_budget_page" />
             </t>
         </t>
     </template>
 
     <template id="report_wedding_budget_page">
-        <div class="page">
-            <h2>
-                <span t-field="o.name"/>
-                <span> — Budget</span>
-            </h2>
-            <p>
-                <span>Date:</span>
-                <span t-field="o.date"/>
-                <span> | Target Budget:</span>
-                <span t-field="o.target_budget"/>
-            </p>
+        <t t-call="web.external_layout">
+            <t t-set="title" t-value="o.name" />
 
-            <table class="table table-sm">
-                <thead>
+            <!-- Header band -->
+            <div class="wm-header">
+                <table>
                     <tr>
-                        <th>Category</th>
-                        <th>Description</th>
-                        <th>Vendor</th>
-                        <th>Estimated</th>
-                        <th>Actual</th>
-                        <th>Payment</th>
+                        <td style="vertical-align: top;">
+                            <h1>
+                                <span t-field="o.name" />
+                                <span
+                                    style="font-weight: 400; font-size: 15px;"
+                                > — Budget</span>
+                            </h1>
+                            <p class="wm-sub">
+                                <span t-field="o.date" />
+                                <span> · Target Budget: </span>
+                                <span t-field="o.target_budget" />
+                            </p>
+                        </td>
+                        <td style="vertical-align: top; text-align: right;">
+                            <span class="wm-badge wm-b-{{o.state}}">
+                                <span t-field="o.state" />
+                            </span>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    <t t-set="categories"
-                       t-value="list(dict.fromkeys(o.budget_line_ids.mapped('category_id')))"/>
-                    <t t-foreach="categories" t-as="cat">
-                        <tr class="active">
-                            <td colspan="6">
-                                <strong><span t-field="cat.name"/></strong>
-                            </td>
+                </table>
+            </div>
+
+            <!-- Usage bar -->
+            <div class="wm-section">
+                <t t-set="usage" t-value="o.budget_usage_pct or 0" />
+                <t
+                    t-set="usage_cls"
+                    t-value="'over' if usage > 100 else 'warn' if usage > 90 else ''"
+                />
+                <div class="wm-progress">
+                    <div
+                        class="wm-progress-fill {{usage_cls}}"
+                        t-att-style="'width: {}%'.format(min(usage, 100))"
+                    />
+                </div>
+                <table class="wm-info">
+                    <tr>
+                        <th>Estimated Total</th>
+                        <td><span t-field="o.estimated_budget" /></td>
+                        <th>Actual Spend</th>
+                        <td><span t-field="o.actual_spend" /></td>
+                    </tr>
+                    <tr>
+                        <th>Difference vs. Target</th>
+                        <td><span t-field="o.budget_diff" /></td>
+                        <th>Usage</th>
+                        <td>
+                            <span
+                                t-out="round(o.budget_usage_pct, 1)"
+                            />% of target used
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Budget lines by category -->
+            <div class="wm-section">
+                <h3>Budget Lines by Category</h3>
+                <table class="wm-table">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Vendor</th>
+                            <th class="text-right">Estimated</th>
+                            <th class="text-right">Actual</th>
+                            <th>Payment</th>
                         </tr>
-                        <t t-set="lines"
-                           t-value="o.budget_line_ids.filtered(lambda l: l.category_id == cat)"/>
-                        <t t-foreach="lines" t-as="line">
-                            <tr>
-                                <td><span t-field="line.category_id"/></td>
-                                <td><span t-field="line.description"/></td>
-                                <td><span t-field="line.vendor_id"/></td>
-                                <td><span t-field="line.estimated_amount"/></td>
-                                <td><span t-field="line.actual_amount"/></td>
-                                <td><span t-field="line.payment_state"/></td>
+                    </thead>
+                    <tbody>
+                        <t
+                            t-set="categories"
+                            t-value="list(dict.fromkeys(o.budget_line_ids.mapped('category_id')))"
+                        />
+                        <t t-foreach="categories" t-as="cat">
+                            <tr class="wm-cat-row">
+                                <td colspan="5">
+                                    <span t-field="cat.name" />
+                                </td>
+                            </tr>
+                            <t
+                                t-set="lines"
+                                t-value="o.budget_line_ids.filtered(lambda l: l.category_id == cat)"
+                            />
+                            <t t-foreach="lines" t-as="line">
+                                <tr>
+                                    <td><span t-field="line.description" /></td>
+                                    <td><span t-field="line.vendor_id" /></td>
+                                    <td class="text-right"><span
+                                            t-field="line.estimated_amount"
+                                        /></td>
+                                    <td class="text-right"><span
+                                            t-field="line.actual_amount"
+                                        /></td>
+                                    <td>
+                                        <span
+                                            class="wm-badge wm-b-{{line.payment_state}}"
+                                        >
+                                            <span t-field="line.payment_state" />
+                                        </span>
+                                    </td>
+                                </tr>
+                            </t>
+                            <tr class="wm-total-row">
+                                <td colspan="2" class="text-right"><em
+                                    >Category total</em></td>
+                                <td class="text-right"><em><span
+                                            t-out="sum(lines.mapped('estimated_amount'))"
+                                        /></em></td>
+                                <td class="text-right"><em><span
+                                            t-out="sum(lines.mapped('actual_amount'))"
+                                        /></em></td>
+                                <td />
                             </tr>
                         </t>
-                        <tr class="table-secondary">
-                            <td colspan="3" class="text-right"><em>Category total</em></td>
-                            <td><em><span t-esc="sum(lines.mapped('estimated_amount'))"/></em></td>
-                            <td><em><span t-esc="sum(lines.mapped('actual_amount'))"/></em></td>
-                            <td></td>
+                        <tr t-if="not o.budget_line_ids">
+                            <td
+                                colspan="5"
+                                class="text-muted"
+                            >No budget lines registered.</td>
                         </tr>
-                    </t>
-                    <tr t-if="not o.budget_line_ids">
-                        <td colspan="6" class="text-muted">No budget lines registered.</td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr class="fw-bold">
-                        <td colspan="3" class="text-right">Grand total</td>
-                        <td><span t-field="o.estimated_budget"/></td>
-                        <td><span t-field="o.actual_spend"/></td>
-                        <td></td>
-                    </tr>
-                </tfoot>
-            </table>
-
-            <p class="mt32">
-                <span>Difference vs. target budget:</span>
-                <span t-field="o.budget_diff"/>
-                <span> (</span>
-                <span t-esc="round(o.budget_usage_pct, 1)"/>
-                <span>% of target used)</span>
-            </p>
-        </div>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2" class="text-right">Grand total</td>
+                            <td class="text-right"><span
+                                    t-field="o.estimated_budget"
+                                /></td>
+                            <td class="text-right"><span
+                                    t-field="o.actual_spend"
+                                /></td>
+                            <td />
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </t>
     </template>
 
     <!-- ============================================================ -->
@@ -352,14 +539,22 @@
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">wedding_management.report_wedding_summary</field>
         <field name="report_file">wedding_management.report_wedding_summary</field>
+        <field name="binding_model_id" ref="wedding_management.model_wedding_event" />
+        <field name="binding_type">report</field>
     </record>
 
     <record id="action_report_wedding_guests_tables" model="ir.actions.report">
         <field name="name">Guests and Tables</field>
         <field name="model">wedding.event</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">wedding_management.report_wedding_guests_tables</field>
-        <field name="report_file">wedding_management.report_wedding_guests_tables</field>
+        <field
+            name="report_name"
+        >wedding_management.report_wedding_guests_tables</field>
+        <field
+            name="report_file"
+        >wedding_management.report_wedding_guests_tables</field>
+        <field name="binding_model_id" ref="wedding_management.model_wedding_event" />
+        <field name="binding_type">report</field>
     </record>
 
     <record id="action_report_wedding_budget" model="ir.actions.report">
@@ -368,6 +563,8 @@
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">wedding_management.report_wedding_budget</field>
         <field name="report_file">wedding_management.report_wedding_budget</field>
+        <field name="binding_model_id" ref="wedding_management.model_wedding_event" />
+        <field name="binding_type">report</field>
     </record>
 
 </odoo>

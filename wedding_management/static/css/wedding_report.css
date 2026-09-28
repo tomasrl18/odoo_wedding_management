@@ -1,0 +1,232 @@
+/* ============================================================
+   Wedding Management — PDF report styles
+   Loaded via web.report_assets_pdf (wkhtmltopdf: no flexbox,
+   use tables for horizontal layout).
+   ============================================================ */
+
+/* ---------- Header band ---------- */
+.wm-header {
+    background: #7d3c56;
+    color: #fff;
+    border-radius: 6px;
+    padding: 16px 22px;
+    margin-bottom: 22px;
+}
+.wm-header table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.wm-header h1 {
+    font-size: 21px;
+    font-weight: 700;
+    margin: 0;
+    color: #fff;
+}
+.wm-header .wm-sub {
+    font-size: 12px;
+    margin: 4px 0 0 0;
+    color: #f3d9e2;
+}
+
+/* ---------- Status badges ---------- */
+.wm-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #fff;
+    background: #8a94a6;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+.wm-b-draft,
+.wm-b-pending,
+.wm-b-proposal,
+.wm-b-0 {
+    background: #8a94a6;
+}
+.wm-b-planning,
+.wm-b-answered,
+.wm-b-1 {
+    background: #4a69bd;
+}
+.wm-b-confirmed,
+.wm-b-paid,
+.wm-b-done,
+.wm-b-completed {
+    background: #2f9e44;
+}
+.wm-b-cancelled,
+.wm-b-declined,
+.wm-b-blocked,
+.wm-b-unpaid,
+.wm-b-3 {
+    background: #c0392b;
+}
+.wm-b-pending_confirmation,
+.wm-b-partial,
+.wm-b-2 {
+    background: #e67e22;
+}
+.wm-b-contracted,
+.wm-b-in_progress {
+    background: #1971c2;
+}
+.wm-b-sent {
+    background: #4a69bd;
+}
+
+/* ---------- KPI cards (table-based layout for wkhtmltopdf) ---------- */
+.wm-kpis {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 10px 0;
+    margin: 0 -10px 22px -10px;
+}
+.wm-kpi {
+    border: 1px solid #dfe4ea;
+    border-radius: 6px;
+    background: #f8f9fb;
+    padding: 10px 14px;
+    width: 25%;
+    vertical-align: top;
+}
+.wm-kpi .wm-kpi-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #74808f;
+    font-weight: 600;
+}
+.wm-kpi .wm-kpi-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #212529;
+    margin-top: 2px;
+}
+.wm-kpi .wm-kpi-sub {
+    font-size: 11px;
+    color: #74808f;
+    margin-top: 2px;
+}
+
+/* ---------- Progress bar ---------- */
+.wm-progress {
+    background: #e9ecef;
+    border-radius: 4px;
+    height: 10px;
+    margin: 6px 0 18px 0;
+    overflow: hidden;
+}
+.wm-progress .wm-progress-fill {
+    height: 10px;
+    border-radius: 4px;
+    background: #2f9e44;
+}
+.wm-progress .wm-progress-fill.warn {
+    background: #e67e22;
+}
+.wm-progress .wm-progress-fill.over {
+    background: #c0392b;
+}
+
+/* ---------- Section headings ---------- */
+.wm-section {
+    margin-bottom: 20px;
+}
+.wm-section h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #5c2d42;
+    border-bottom: 2px solid #7d3c56;
+    padding-bottom: 4px;
+    margin: 0 0 10px 0;
+}
+
+/* ---------- Data tables ---------- */
+.wm-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+.wm-table th {
+    background: #343a40;
+    color: #fff;
+    font-weight: 600;
+    text-align: left;
+    padding: 7px 10px;
+    border: none;
+}
+.wm-table td {
+    padding: 7px 10px;
+    border-bottom: 1px solid #e9ecef;
+    vertical-align: middle;
+}
+.wm-table tbody tr:nth-child(even) {
+    background: #f8f9fb;
+}
+.wm-table th.text-right,
+.wm-table td.text-right {
+    text-align: right;
+}
+.wm-table .wm-cat-row td {
+    background: #ede7eb;
+    font-weight: 700;
+    color: #5c2d42;
+}
+.wm-table .wm-total-row td {
+    font-weight: 600;
+    background: #fff;
+    border-top: 1px solid #ced4da;
+    border-bottom: none;
+}
+.wm-table tfoot td {
+    border-top: 2px solid #343a40;
+    border-bottom: none;
+    font-weight: 700;
+    background: #fff;
+}
+.wm-table .text-muted {
+    color: #868e96;
+}
+
+/* ---------- Key/value info tables ---------- */
+.wm-info {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+.wm-info th {
+    text-align: left;
+    font-weight: 600;
+    color: #74808f;
+    width: 38%;
+    padding: 5px 10px;
+    border: none;
+    background: none;
+    text-transform: capitalize;
+}
+.wm-info td {
+    padding: 5px 10px;
+    border: none;
+    color: #212529;
+}
+
+/* ---------- Evitar saltos de página indeseados ---------- */
+.wm-section {
+    page-break-inside: avoid;
+}
+
+.wm-table tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+}
+
+thead {
+    display: table-header-group;
+}
+
+tfoot {
+    display: table-footer-group;
+}

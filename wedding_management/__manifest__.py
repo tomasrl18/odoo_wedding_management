@@ -6,7 +6,6 @@
         """,
     "author": "Tomás Raigal",
     "maintainer": "Tomás Raigal",
-    "category": "Extra Tools",
     "license": "LGPL-3",
     "category": "Services",
     "version": "15.0.1.0.0",
@@ -41,4 +40,9 @@
     "images": [
         "static/description/banner.png",
     ],
+    "assets": {
+        "web.report_assets_common": [
+            "wedding_management/static/src/css/wedding_report.css",
+        ],
+    },
 }
