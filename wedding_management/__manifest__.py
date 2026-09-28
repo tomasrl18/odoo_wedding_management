@@ -37,5 +37,5 @@
     "installable": True,
     "application": True,
     "auto_install": False,
-    "price": 499.99,
+    "price": 99.99,
 }
